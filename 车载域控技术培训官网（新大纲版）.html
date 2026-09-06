@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>车载域控技术培训课程</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        body{
+            background-color: #edf0f5;
+            color: #2c3e50;
+            padding-top: 112px;
+        }
+        /* ===== 顶部固定联系栏 ===== */
+        .header-contact{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #152b47;
+            color: #fff;
+            padding: 14px 30px;
+            z-index: 999;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+        }
+        .contact-info{
+            font-size: 15px;
+        }
+        /* ===== 主导航：四个大板块 ===== */
+        .top-nav{
+            position: fixed;
+            top: 49px;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            z-index: 998;
+            box-shadow: 0 2px 8px rgba(21, 43, 71, 0.08);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 24px;
+        }
+        .brand{
+            font-size: 18px;
+            font-weight: 700;
+            color: #152b47;
+            margin-right: 24px;
+            white-space: nowrap;
+        }
+        .nav-list{
+            display: flex;
+            gap: 6px;
+            margin-left: auto;
+            flex-wrap: wrap;
+        }
+        .nav-item{
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: #3c4d63;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.25s;
+            white-space: nowrap;
+        }
+        .nav-item:hover{
+            color: #345b94;
+            background: #eef3fa;
+        }
+        .nav-item.active{
+            color: #fff;
+            background: linear-gradient(135deg, #345b94, #1e4077);
+        }
+        .container{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        .page-title{
+            text-align: center;
+            font-size: 32px;
+            color: #152b47;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .page-subtitle{
+            text-align: center;
+            font-size: 16px;
+            color: #54647c;
+            margin-bottom: 48px;
+        }
+        .back-btn{
+            display: inline-block;
+            background: #345b94;
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-bottom: 24px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover{
+            background: #1e4077;
+        }
+        /* ===== 视图切换 ===== */
+        .view{
+            display: none;
+        }
+        .view.active{
+            display: block;
+        }
+        /* ===== 主页：愿景 ===== */
+        .home-hero{
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 40px 44px;
+            box-shadow: 0 4px 14px rgba(21, 43, 71, 0.09);
+            display: flex;
+            align-items: center;
+            gap: 44px;
+        }
+        .home-text{
+            flex: 1;
+            min-width: 0;
+        }
+        .home-eyebrow{
+            display: inline-block;
+            background: #eef3fa;
+            color: #345b94;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-bottom: 18px;
+        }
+        .home-title{
+            font-size: 38px;
+            color: #152b47;
+            line-height: 1.35;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        .home-sub{
+            font-size: 16px;
+            color: #54647c;
+            line-height: 1.8;
+            margin-bottom: 26px;
+        }
+        .home-img{
+            width: 46%;
+            border-radius: 12px;
+            object-fit: cover;
+            display: block;
+        }
+        /* ===== 培训课程：课程卡片 ===== */
+        .course-grid{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+        .course-card{
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 14px rgba(21, 43, 71, 0.09);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .course-card:hover{
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(21, 43, 71, 0.13);
+        }
+        .course-title{
+            font-size: 22px;
+            color: #152b47;
+            margin-bottom: 18px;
+            font-weight: bold;
+        }
+        .price-list{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .price-tag{
+            background: linear-gradient(135deg, #345b94, #1e4077);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+        .course-desc{
+            font-size: 15px;
+            line-height: 1.7;
+            color: #4a5568;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        .enter-detail-btn{
+            display: inline-block;
+            background: #345b94;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            align-self: flex-start;
+            transition: 0.3s;
+        }
+        .enter-detail-btn:hover{
+            background: #1e4077;
+        }
+        /* ===== 培训课程二级页面：课程详情 ===== */
+        .detail-box{
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 32px;
+            box-shadow: 0 4px 14px rgba(21, 43, 71, 0.09);
+        }
+        .section-title{
+            font-size: 23px;
+            color: #152b47;
+            font-weight: bold;
+            margin-bottom: 28px;
+            position: relative;
+        }
+        .section-title::after{
+            content: "";
+            width: 60px;
+            height: 3px;
+            background: #345b94;
+            display: block;
+            margin: 10px 0 0;
+            border-radius: 2px;
+        }
+        .detail-price{
+            color: #345b94;
+            font-size: 17px;
+            margin-bottom: 24px;
+        }
+        .detail-desc{
+            line-height: 1.7;
+            color: #4a5568;
+            margin-bottom: 28px;
+        }
+        .detail-title{
+            font-size: 22px;
+            color: #152b47;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .detail-content p{
+            background: #f7f9fc;
+            border-left: 3px solid #345b94;
+            border-radius: 6px;
+            padding: 11px 16px;
+            margin-bottom: 10px;
+            line-height: 1.7;
+            color: #4a5568;
+        }
+        .outline-caption{
+            font-size: 14px;
+            color: #667892;
+            margin-bottom: 14px;
+        }
+        .outline-table{
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            font-size: 14px;
+        }
+        .outline-table th{
+            background: #152b47;
+            color: #ffffff;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .outline-table td{
+            padding: 10px 12px;
+            border-bottom: 1px solid #e6ebf3;
+            color: #4a5568;
+            vertical-align: top;
+            line-height: 1.6;
+        }
+        .outline-table tbody tr:nth-child(even) td{
+            background: #f7f9fc;
+        }
+        .outline-table tr.outline-section td{
+            background: #eef3fa;
+            color: #345b94;
+            font-weight: 700;
+        }
+        /* ===== 讲师介绍 ===== */
+        .grid-2{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+            margin-bottom: 40px;
+        }
+        .teacher-card{
+            background: #f7f9fc;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+        .teacher-name{
+            font-size: 20px;
+            color: #152b47;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .teacher-tag{
+            color: #345b94;
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+        .teacher-text{
+            line-height: 1.7;
+            color: #4a5568;
+        }
+        /* ===== 学员真实评价 ===== */
+        .review-card{
+            background: #f7f9fc;
+            border-radius: 12px;
+            padding: 22px;
+        }
+        .review-user{
+            font-weight: bold;
+            color: #152b47;
+            margin-bottom: 8px;
+        }
+        .review-course{
+            font-size: 13px;
+            color: #667892;
+            margin-bottom: 10px;
+        }
+        .review-text{
+            line-height: 1.7;
+            color: #4a5568;
+        }
+        .review-detail-link{
+            display: inline-block;
+            margin-top: 14px;
+            color: #345b94;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.25s;
+        }
+        .review-detail-link:hover{
+            color: #1e4077;
+            text-decoration: underline;
+        }
+        .review-img{
+            width: 100%;
+            max-width: 430px;
+            border-radius: 10px;
+            display: block;
+            margin: 6px auto 0;
+            border: 1px solid #e3e9f2;
+        }
+        /* ===== 常见疑问 ===== */
+        .faq-item{
+            background: #f7f9fc;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .faq-q{
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #152b47;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-a{
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+        .faq-a-inner{
+            padding-bottom: 15px;
+        }
+        .faq-item.open .faq-a{
+            max-height: 300px;
+        }
+        /* ===== 底部咨询 ===== */
+        .contact-bottom{
+            background: #152b47;
+            color: #fff;
+            border-radius: 14px;
+            padding: 28px 24px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .contact-bottom h3{
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        .contact-bottom p{
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        @media (max-width: 768px){
+            .course-grid, .grid-2{
+                grid-template-columns: 1fr;
+            }
+            .page-title{
+                font-size: 26px;
+            }
+            .home-hero{
+                flex-direction: column;
+                padding: 28px 22px;
+                gap: 24px;
+            }
+            .home-img{
+                width: 100%;
+            }
+            .home-title{
+                font-size: 28px;
+            }
+            .top-nav{
+                padding: 8px 14px;
+                gap: 6px;
+            }
+            .brand{
+                font-size: 16px;
+                margin-right: 10px;
+            }
+            .nav-list{
+                margin-left: 0;
+                width: 100%;
+            }
+            .nav-item{
+                padding: 7px 13px;
+                font-size: 14px;
+            }
+            body{
+                padding-top: 128px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-contact">
+        <div class="contact-info">微信：HnpX2i &nbsp;&nbsp;联系人：江工</div>
+    </div>
+    <!-- ===== 四个大板块导航 ===== -->
+    <nav class="top-nav">
+        <span class="brand">车载域控技术培训</span>
+        <div class="nav-list">
+            <a class="nav-item" data-section="home" href="#home">主页</a>
+            <a class="nav-item" data-section="courses" href="#courses">培训课程</a>
+            <a class="nav-item" data-section="teachers" href="#teachers">讲师介绍</a>
+            <a class="nav-item" data-section="reviews" href="#reviews">学员真实评价</a>
+            <a class="nav-item" data-section="faq" href="#faq">常见疑问</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- ===================== 主页：愿景 ===================== -->
+        <section class="view" id="view-home">
+            <div class="home-hero">
+                <div class="home-text">
+                    <p class="home-eyebrow">愿景</p>
+                    <h1 class="home-title">愿每一个学习车载的同学<br>成功上岸</h1>
+                    <p class="home-sub">车载测试｜域控开发｜学员辅导｜模拟面试一站式技术培训</p>
+                    <a class="enter-detail-btn" href="#courses">了解培训课程</a>
+                </div>
+                <img class="home-img" src="https://aka.doubaocdn.com/s/FrBzJH6sLN" alt="商务握手图">
+            </div>
+        </section>
+
+        <!-- ===================== 板块一：培训课程 ===================== -->
+        <section class="view" id="view-courses">
+            <h1 class="page-title">培训课程</h1>
+            <p class="page-subtitle">车载测试｜域控开发｜学员辅导｜模拟面试一站式技术培训</p>
+            <div class="course-grid">
+                <div class="course-card">
+                    <h2 class="course-title">车载域控测试</h2>
+                    <div class="price-list">
+                        <span class="price-tag">录播 3800元</span>
+                        <span class="price-tag">直播 7800元</span>
+                        <span class="price-tag">辅导至就业 12800元</span>
+                    </div>
+                    <div class="course-desc">
+                        本课程围绕车载域控制器测试技术展开，覆盖车载总线CAN/LIN/Ethernet、诊断测试、OTA测试、HIL硬件在环测试、自动化测试脚本开发等企业实战技能。
+                    </div>
+                    <a class="enter-detail-btn" href="#course-card1">进入课程详情</a>
+                </div>
+                <div class="course-card">
+                    <h2 class="course-title">车载域控开发</h2>
+                    <div class="price-list">
+                        <span class="price-tag">录播 4500元</span>
+                        <span class="price-tag">直播 9800元</span>
+                        <span class="price-tag">辅导至就业 13800元</span>
+                    </div>
+                    <div class="course-desc">
+                        面向车载域控底层与应用层开发，讲解AUTOSAR架构、MCU/MPU域控软件架构、车载操作系统、驱动开发、软件集成调试等核心开发技能。
+                    </div>
+                    <a class="enter-detail-btn" href="#course-card2">进入课程详情</a>
+                </div>
+                <div class="course-card">
+                    <h2 class="course-title">外来学员辅导</h2>
+                    <div class="price-list">
+                        <span class="price-tag">辅导至就业 4500元</span>
+                    </div>
+                    <div class="course-desc">
+                        针对已经有一定基础、外来进修学员提供一对一针对性辅导，查漏补缺，项目实战指导、简历优化、就业方向规划。
+                    </div>
+                    <a class="enter-detail-btn" href="#course-card3">进入课程详情</a>
+                </div>
+                <div class="course-card">
+                    <h2 class="course-title">外来学员模拟面试</h2>
+                    <div class="price-list">
+                        <span class="price-tag">1000元/场/2h</span>
+                    </div>
+                    <div class="course-desc">
+                        由行业资深工程师模拟车企、Tier1真实面试流程，包含技术问答、项目深挖、压力面试、面试复盘点评。
+                    </div>
+                    <a class="enter-detail-btn" href="#course-card4">进入课程详情</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== 培训课程二级页面：课程详情 ===================== -->
+        <section class="view" id="view-course-detail">
+            <a class="back-btn" href="#courses">← 返回培训课程</a>
+            <div class="detail-box" id="detail-content"></div>
+            <div class="contact-bottom">
+                <h3>立即咨询课程</h3>
+                <p>微信：HnpX2i<br>联系人：江工<br>咨询请备注意向课程名称</p>
+            </div>
+        </section>
+
+        <!-- ===================== 板块二：讲师介绍 ===================== -->
+        <section class="view" id="view-teachers">
+            <h1 class="page-title">讲师介绍</h1>
+            <p class="page-subtitle">行业资深工程师 · 多年车企 / Tier1 项目经验</p>
+            <div class="teacher-card">
+                <div class="teacher-name">江工</div>
+                <div class="teacher-tag">车载域控资深工程师｜多年车企Tier1项目经验</div>
+                <div class="teacher-text">
+                    长期从事车载域控测试、AUTOSAR域控软件开发工作，参与过多款量产域控制器项目。熟悉车载总线、UDS诊断、HIL测试、域控软件集成全流程。拥有大量学员培训辅导经验，擅长把复杂车载技术通俗讲解，注重项目实战与就业落地，帮助大量学员成功入职车载相关岗位。
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== 板块三：学员真实评价 ===================== -->
+        <section class="view" id="view-reviews">
+            <h1 class="page-title">学员真实评价</h1>
+            <p class="page-subtitle">学员真实学习与就业反馈</p>
+            <div class="grid-2">
+                <div class="review-card">
+                    <div class="review-user">王同学</div>
+                    <div class="review-course">课程：车载域控测试（直播班）</div>
+                    <div class="review-text">课程实战内容多，老师讲的都是车企实际工作内容，学习完成功拿到车载测试岗位offer，收获很大。</div>
+                    <a class="review-detail-link" href="#review-r1">查看评价详情 →</a>
+                </div>
+                <div class="review-card">
+                    <div class="review-user">李同学</div>
+                    <div class="review-course">课程：车载域控开发就业辅导</div>
+                    <div class="review-text">AUTOSAR这块之前自学一直看不懂，经过系统学习，理清域控开发整套流程，简历辅导也很专业。</div>
+                    <a class="review-detail-link" href="#review-r2">查看评价详情 →</a>
+                </div>
+                <div class="review-card">
+                    <div class="review-user">张同学</div>
+                    <div class="review-course">课程：外来学员模拟面试</div>
+                    <div class="review-text">模拟面试把我很多知识漏洞暴露出来，复盘给出的改进建议非常实用，正式面试心态稳了很多。</div>
+                    <a class="review-detail-link" href="#review-r3">查看评价详情 →</a>
+                </div>
+                <div class="review-card">
+                    <div class="review-user">陈同学</div>
+                    <div class="review-course">课程：外来学员就业辅导</div>
+                    <div class="review-text">有一定基础但是求职屡屡碰壁，经过针对性辅导，补齐项目短板，顺利进入Tier1企业。</div>
+                    <a class="review-detail-link" href="#review-r4">查看评价详情 →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== 学员真实评价二级页面：评价详情 ===================== -->
+        <section class="view" id="view-review-detail">
+            <a class="back-btn" href="#reviews">← 返回学员真实评价</a>
+            <div class="detail-box" id="review-detail-content"></div>
+        </section>
+
+        <!-- ===================== 板块四：常见疑问 ===================== -->
+        <section class="view" id="view-faq">
+            <h1 class="page-title">常见疑问</h1>
+            <p class="page-subtitle">关于课程、报名与辅导的常见问题</p>
+            <div class="faq-wrap">
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)">零基础可以学习车载域控课程吗？<span>+</span></div>
+                    <div class="faq-a"><div class="faq-a-inner">车载域控测试课程对零基础友好，会从基础总线开始教学；开发课程建议具备C语言基础，会做前期基础评估。</div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)">录播课和直播课区别是什么？<span>+</span></div>
+                    <div class="faq-a"><div class="faq-a-inner">录播为录制好的视频，自主学习；直播为实时上课，可以实时提问互动，配套回放。</div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)">辅导至就业是包就业吗？<span>+</span></div>
+                    <div class="faq-a"><div class="faq-a-inner">提供完整学习、项目、简历、面试全套辅导服务，提升求职竞争力，不承诺包分配工作。</div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)">外来学员辅导需要什么基础？<span>+</span></div>
+                    <div class="faq-a"><div class="faq-a-inner">需要具备一定软件或者车载相关基础，适合想查漏补缺、强化项目经验的进修学员。</div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)">模拟面试怎么预约场次？<span>+</span></div>
+                    <div class="faq-a"><div class="faq-a-inner">添加微信联系江工，沟通你的技术方向，确定面试时间，单场时长2小时。</div></div>
+                </div>
+            </div>
+            <div class="contact-bottom">
+                <h3>立即咨询课程</h3>
+                <p>微信：HnpX2i<br>联系人：江工<br>咨询请备注意向课程名称</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        //课程数据源
+        const courseData = {
+            card1: {
+                title: "车载域控测试",
+                price: "录播 3800元｜直播 7800元｜辅导至就业 12800元",
+                desc: "本课程围绕车载域控制器测试技术展开，覆盖车载总线CAN/LIN/Ethernet、诊断测试、OTA测试、HIL硬件在环测试、自动化测试脚本开发等企业实战技能，零基础可学，配套项目实战案例。",
+                outline: `
+                    <h4 class="detail-title">课程大纲</h4>
+                    <p class="outline-caption">江工车载课程表 · 9大模块85项知识要点 · 覆盖座舱 / ADAS / 车身 / 动力底盘 / 网络 / 实操</p>
+                    <table class="outline-table">
+                        <thead>
+                            <tr><th>编号</th><th>课程名称</th><th>课程内容</th></tr>
+                        </thead>
+                                                <tbody>
+                            <tr class="outline-section"><td colspan="3">01 基础课程（3项）</td></tr>
+                            <tr><td>1</td><td>车载测试前景及相关公司介绍</td><td></td></tr>
+                            <tr><td>2</td><td>基础测试理论学习</td><td></td></tr>
+                            <tr><td>3</td><td>车载部件英文缩写功能解读</td><td></td></tr>
+                            <tr class="outline-section"><td colspan="3">02 座舱域（8项）</td></tr>
+                            <tr><td>4</td><td>电台功能</td><td></td></tr>
+                            <tr><td>5</td><td>多媒体娱乐</td><td></td></tr>
+                            <tr><td>6</td><td>WIFI测试</td><td></td></tr>
+                            <tr><td>7</td><td>蓝牙测试</td><td></td></tr>
+                            <tr><td>8</td><td>语音助手测试</td><td></td></tr>
+                            <tr><td>9</td><td>导航测试</td><td></td></tr>
+                            <tr><td>10</td><td>360测试</td><td></td></tr>
+                            <tr><td>11</td><td>车辆设置测试</td><td></td></tr>
+                            <tr class="outline-section"><td colspan="3">03 T-BOX（车联网技术）（5项）</td></tr>
+                            <tr><td>12</td><td>T-BOX远程控车原理</td><td></td></tr>
+                            <tr><td>13</td><td>T-BOX车辆状态查询</td><td></td></tr>
+                            <tr><td>14</td><td>T-BOX功能逻辑讲解</td><td></td></tr>
+                            <tr><td>15</td><td>T-BOX测试点分析</td><td></td></tr>
+                            <tr><td>16</td><td>T-BOX异常测试及问题排查</td><td></td></tr>
+                            <tr class="outline-section"><td colspan="3">04 ADAS域（智能辅助驾驶）（18项）</td></tr>
+                            <tr><td>17</td><td>ADAS相关功能介绍</td><td></td></tr>
+                            <tr><td>18</td><td>ADAS相关组件及基本原理</td><td></td></tr>
+                            <tr><td>19</td><td>ACC自适应巡航</td><td></td></tr>
+                            <tr><td>20</td><td>LCC车道居中辅助</td><td></td></tr>
+                            <tr><td>21</td><td>FCW前碰撞预警</td><td></td></tr>
+                            <tr><td>22</td><td>AEB紧急制动</td><td></td></tr>
+                            <tr><td>23</td><td>LDW车道偏离预警</td><td></td></tr>
+                            <tr><td>24</td><td>LKA车道偏离保持</td><td></td></tr>
+                            <tr><td>25</td><td>TSR交通标识识别</td><td></td></tr>
+                            <tr><td>26</td><td>IHBC智能远近光灯切换</td><td></td></tr>
+                            <tr><td>27</td><td>BSD盲点检测</td><td></td></tr>
+                            <tr><td>28</td><td>DOW开门预警</td><td></td></tr>
+                            <tr><td>29</td><td>DMS驾驶员检测系统</td><td></td></tr>
+                            <tr><td>30</td><td>APA自动泊车</td><td></td></tr>
+                            <tr><td>31</td><td>VPA记忆泊车</td><td></td></tr>
+                            <tr><td>32</td><td>NOA城市/高速领航</td><td></td></tr>
+                            <tr><td>33</td><td>E2E端到端智能辅助驾驶</td><td></td></tr>
+                            <tr><td>34</td><td>TJP交通拥堵辅助</td><td></td></tr>
+                            <tr class="outline-section"><td colspan="3">05 车身域（8项）</td></tr>
+                            <tr><td>35</td><td>灯光设置</td><td></td></tr>
+                            <tr><td>36</td><td>防盗认证</td><td></td></tr>
+                            <tr><td>37</td><td>车窗控制</td><td></td></tr>
+                            <tr><td>38</td><td>车门控制</td><td></td></tr>
+                            <tr><td>39</td><td>座椅控制</td><td></td></tr>
+                            <tr><td>40</td><td>雨刮控制</td><td></td></tr>
+                            <tr><td>41</td><td>空调测试</td><td></td></tr>
+                            <tr><td>42</td><td>尾翼调节</td><td></td></tr>
+                            <tr class="outline-section"><td colspan="3">06 动力底盘域（7项）</td></tr>
+                            <tr><td>43</td><td>VCU功能详解</td><td></td></tr>
+                            <tr><td>44</td><td>BMS功能详解</td><td></td></tr>
+                            <tr><td>45</td><td>MCU功能详解</td><td></td></tr>
+                            <tr><td>46</td><td>转向系统详解</td><td></td></tr>
+                            <tr><td>47</td><td>悬架系统详解</td><td></td></tr>
+                            <tr><td>48</td><td>制动系统详解</td><td></td></tr>
+                            <tr><td>49</td><td>传动系统详解</td><td></td></tr>
+                            <tr class="outline-section"><td colspan="3">07 车辆网络（7项）</td></tr>
+                            <tr><td>50</td><td>CAN协议</td><td></td></tr>
+                            <tr><td>51</td><td>CAN FD协议</td><td></td></tr>
+                            <tr><td>52</td><td>LIN协议</td><td></td></tr>
+                            <tr><td>53</td><td>车载以太网协议（SOME/IP DO/IP）</td><td></td></tr>
+                            <tr><td>54</td><td>国标快/慢充协议（GB/T27930 GB/T18487）</td><td></td></tr>
+                            <tr><td>55</td><td>通讯矩阵详解</td><td></td></tr>
+                            <tr><td>56</td><td>UDS协议详解（ISO 14229）</td><td></td></tr>
+                            <tr class="outline-section"><td colspan="3">08 实操部分（24项）</td></tr>
+                            <tr><td>57</td><td>测试用例编写实战</td><td></td></tr>
+                            <tr><td>58</td><td>ADB命令</td><td></td></tr>
+                            <tr><td>59</td><td>Linux命令</td><td></td></tr>
+                            <tr><td>60</td><td>座舱域实车实操</td><td></td></tr>
+                            <tr><td>61</td><td>T-BOX远程控车实操</td><td></td></tr>
+                            <tr><td>62</td><td>ADAS功能实车实操</td><td></td></tr>
+                            <tr><td>63</td><td>车身域实车实操</td><td></td></tr>
+                            <tr><td>64</td><td>UDS诊断</td><td></td></tr>
+                            <tr><td>65</td><td>UDS刷写</td><td></td></tr>
+                            <tr><td>66</td><td>CANOE软件介绍及安装</td><td></td></tr>
+                            <tr><td>67</td><td>CANOE通道配置</td><td></td></tr>
+                            <tr><td>68</td><td>CANIG模块仿真</td><td></td></tr>
+                            <tr><td>69</td><td>TRACE/GRAPHIC报文信号分析</td><td></td></tr>
+                            <tr><td>70</td><td>编写DBC文件</td><td></td></tr>
+                            <tr><td>71</td><td>PANEL面板制作</td><td></td></tr>
+                            <tr><td>72</td><td>CANOE台架仿真实操</td><td></td></tr>
+                            <tr><td>73</td><td>CANOE实车实操</td><td></td></tr>
+                            <tr><td>74</td><td>BUG管理工具（JIRA，禅道）</td><td></td></tr>
+                            <tr><td>75</td><td>万用表工具实操</td><td></td></tr>
+                            <tr><td>76</td><td>示波器工具实操</td><td></td></tr>
+                            <tr><td>77</td><td>测试台架实操</td><td></td></tr>
+                            <tr><td>78</td><td>CANOE-log回放</td><td></td></tr>
+                            <tr><td>79</td><td>bug验收关问题实操</td><td></td></tr>
+                            <tr><td>80</td><td>测试日会汇报流程</td><td></td></tr>
+                            <tr class="outline-section"><td colspan="3">09 就业服务（5项）</td></tr>
+                            <tr><td>81</td><td>简历编写辅导</td><td></td></tr>
+                            <tr><td>82</td><td>课程知识点梳理</td><td></td></tr>
+                            <tr><td>83</td><td>一对一模拟面试</td><td></td></tr>
+                            <tr><td>84</td><td>面试辅助</td><td></td></tr>
+                            <tr><td>85</td><td>车企工程师经验分析</td><td></td></tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            card2: {
+                title: "车载域控开发",
+                price: "录播 4500元｜直播 9800元｜辅导至就业 13800元",
+                desc: "面向车载域控底层与应用层开发，讲解AUTOSAR架构、MCU/MPU域控软件架构、车载操作系统、驱动开发、应用层业务逻辑开发、软件集成调试等核心开发技能。",
+                                outline: `
+                    <h4 class="detail-title">课程大纲</h4>
+                    <p class="outline-caption">车载域控开发培训课程内容【自研干货闭环适合软测车载进阶，跨行零基础】</p>
+                    <table class="outline-table">
+                        <thead>
+                            <tr><th>章节</th><th>课程名称</th><th>课程内容描述</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>智能座舱域控硬件原理与基础</td><td>讲解座舱域控制器核心架构、硬件组成、工作原理、电源/通信/散热基础，建立座舱硬件认知体系</td></tr>
+                            <tr><td>2</td><td>座舱域控制器芯片接口基础与应用</td><td>讲解座舱主控芯片常用接口（GPIO、UART、CAN、LVDS、MIPI、以太网等）定义、通信机制与工程应用</td></tr>
+                            <tr><td>3</td><td>座舱域控主机外设组件基础 1</td><td>讲解座舱主机核心外设：屏幕、仪表、功放、麦克风、摄像头、USB/Type-C、存储卡等硬件基础</td></tr>
+                            <tr><td>4</td><td>座舱域控主机外设组件基础 2</td><td>继续讲解座舱外设：车机按键、背光、氛围灯、T-Box、收音模块、功放驱动、音频链路等</td></tr>
+                            <tr><td>5</td><td>整车系统集成与项目架构能力精讲</td><td>讲解整车 EE 架构、座舱与整车交互逻辑、系统集成思路、项目架构设计与交付逻辑</td></tr>
+                            <tr><td>6</td><td>整车五大域功能联调 1</td><td>讲解整车五大域（座舱/车身/动力/底盘/智驾）概念，座舱域与车身域基础联调</td></tr>
+                            <tr><td>7</td><td>整车五大域功能联调 2</td><td>座舱域与动力/底盘域信号交互、状态联动、故障逻辑、休眠唤醒联调</td></tr>
+                            <tr><td>8</td><td>整车五大域功能联调 3</td><td>仪表+中控+HUD+后排多屏联动、显示同步、权限控制、场景化联调</td></tr>
+                            <tr><td>9</td><td>整车五大域功能联调 4</td><td>语音、车控、空调、灯光、座椅、门窗等全域功能联调与场景验证</td></tr>
+                            <tr><td>10</td><td>整车五大域功能联调 5</td><td>整车级故障、诊断、升级、安全、网络管理联调与问题排查思路</td></tr>
+                            <tr><td>11</td><td>整车开发全流程实践 1</td><td>整车项目立项、需求分析、GVDP 流程、里程碑节点、项目计划实战</td></tr>
+                            <tr><td>12</td><td>整车开发全流程实践 2</td><td>产品定义、系统设计、硬件/软件/结构开发、BOM 与变更管理</td></tr>
+                            <tr><td>13</td><td>整车开发全流程实践 3</td><td>样件开发、台架测试、DV/PV 测试、可靠性与环境测试</td></tr>
+                            <tr><td>14</td><td>整车开发全流程实践 4</td><td>整车集成测试、路试、问题整改、冻结发布、SOP 准备</td></tr>
+                            <tr><td>15</td><td>整车开发全流程实践 5</td><td>量产导入、供应链协同、交付管控、项目复盘与经验总结</td></tr>
+                            <tr><td>16</td><td>整车配置开发与定义</td><td>讲解车型配置策划、配置表、选装逻辑、配置冻结、工程化落地与 BOM 匹配</td></tr>
+                            <tr><td>17</td><td>座舱域控芯片可行性评估 1</td><td>芯片选型指标：算力、接口、功耗、散热、系统支持、成本分析</td></tr>
+                            <tr><td>18</td><td>座舱域控芯片可行性评估 2</td><td>芯片方案对比、性能验证、软件生态、供应商能力、风险评估</td></tr>
+                            <tr><td>19</td><td>座舱域控芯片可行性评估 3</td><td>芯片定点依据、方案输出、测试结论、量产可行性总结</td></tr>
+                            <tr><td>20</td><td>智能座舱产品定义与方案开发 1</td><td>座舱需求拆解、功能定义、交互逻辑、场景设计、方案框架</td></tr>
+                            <tr><td>21</td><td>智能座舱产品定义与方案开发 2</td><td>座舱硬件方案、软件架构、HMI/车控/音频方案、成本与落地路径</td></tr>
+                            <tr><td>22</td><td>汽车零部件供应商全生命周期管理实战 1</td><td>供应商寻源、准入、审核、定点、开发协同、交付与质量管控</td></tr>
+                            <tr><td>23</td><td>汽车零部件供应商全生命周期管理实战 2</td><td>供应商绩效、问题闭环、风险管控、变更管理、量产持续管理</td></tr>
+                            <tr><td>24</td><td>简历面试专项课：座舱岗求职通关</td><td>岗简历优化、高频面试题、技术面技巧、offer 提升</td></tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            card3: {
+                title: "外来学员辅导",
+                price: "辅导至就业 4500元",
+                desc: "针对已经有一定基础、外来进修学员提供一对一针对性辅导，查漏补缺，项目实战指导、简历优化、就业方向规划，全程辅导直到成功就业。",
+                outline: `
+                    <h4 class="detail-title">服务大纲</h4>
+                    <div class="detail-content">
+                        <p>1.个人基础评估，定制学习路线</p>
+                        <p>2.知识点查漏补缺，难点答疑</p>
+                        <p>3.企业级项目实战指导</p>
+                        <p>4.简历修改、项目包装</p>
+                        <p>5.求职方向规划，持续辅导直至就业</p>
+                    </div>
+                `
+            },
+            card4: {
+                title: "外来学员模拟面试",
+                price: "1000元/场/2h",
+                desc: "由行业资深工程师模拟车企、Tier1真实面试流程，包含技术问答、项目深挖、压力面试、面试复盘点评，给出针对性改进方案，快速提升面试通过率。",
+                outline: `
+                    <h4 class="detail-title">服务大纲</h4>
+                    <div class="detail-content">
+                        <p>1.车企/Tier1真实面试流程复刻</p>
+                        <p>2.专业技术提问、项目深挖问答</p>
+                        <p>3.压力面试环节训练</p>
+                        <p>4.面试完整复盘，指出薄弱点</p>
+                        <p>5.针对性改进建议，面试技巧指导</p>
+                    </div>
+                `
+            }
+        };
+        //学员评价数据源
+        const reviewData = {
+            r1: {
+                user: "王同学",
+                course: "课程：车载域控测试（直播班）",
+                text: "课程实战内容多，老师讲的都是车企实际工作内容，学习完成功拿到车载测试岗位offer，收获很大。",
+                img: "https://aka.doubaocdn.com/s/1l6bqpZnIV"
+            },
+            r2: {
+                user: "李同学",
+                course: "课程：车载域控开发就业辅导",
+                text: "AUTOSAR这块之前自学一直看不懂，经过系统学习，理清域控开发整套流程，简历辅导也很专业。"
+            },
+            r3: {
+                user: "张同学",
+                course: "课程：外来学员模拟面试",
+                text: "模拟面试把我很多知识漏洞暴露出来，复盘给出的改进建议非常实用，正式面试心态稳了很多。"
+            },
+            r4: {
+                user: "陈同学",
+                course: "课程：外来学员就业辅导",
+                text: "有一定基础但是求职屡屡碰壁，经过针对性辅导，补齐项目短板，顺利进入Tier1企业。"
+            }
+        };
+        //板块与视图ID映射
+        const sectionViews = {
+            home: "view-home",
+            courses: "view-courses",
+            teachers: "view-teachers",
+            reviews: "view-reviews",
+            faq: "view-faq"
+        };
+        //hash路由：切换板块视图 / 课程详情二级页面 / 评价详情二级页面
+        function route(){
+            const hash = location.hash.replace(/^#/, "");
+            let section = "home";
+            let detailId = "";
+            let reviewId = "";
+            if (hash.indexOf("course-") === 0) {
+                detailId = hash.slice("course-".length);
+            } else if (hash.indexOf("review-") === 0) {
+                reviewId = hash.slice("review-".length);
+            } else if (sectionViews[hash]) {
+                section = hash;
+            }
+            document.querySelectorAll(".view").forEach(function(v){
+                v.classList.remove("active");
+            });
+            if (reviewId && reviewData[reviewId]) {
+                renderReviewDetail(reviewId);
+                document.getElementById("view-review-detail").classList.add("active");
+                section = "reviews";
+            } else if (detailId && courseData[detailId]) {
+                renderDetail(detailId);
+                document.getElementById("view-course-detail").classList.add("active");
+            } else {
+                document.getElementById(sectionViews[section]).classList.add("active");
+            }
+            document.querySelectorAll(".nav-item").forEach(function(a){
+                a.classList.toggle("active", a.dataset.section === section);
+            });
+            window.scrollTo(0, 0);
+        }
+        //渲染评价详情（学员真实评价二级页面）
+        function renderReviewDetail(id){
+            const item = reviewData[id];
+            let html = `
+                <h2 class="section-title">${item.user} · 学员评价</h2>
+                <div class="review-course" style="font-size:15px;margin-bottom:16px">${item.course}</div>
+                <div class="detail-desc">${item.text}</div>
+            `;
+            if (item.img) {
+                html += `<img class="review-img" src="${item.img}" alt="${item.user}的评价截图">`;
+            }
+            document.getElementById("review-detail-content").innerHTML = html;
+        }
+        //渲染课程详情（培训课程二级页面）
+        function renderDetail(id){
+            const item = courseData[id];
+            document.getElementById("detail-content").innerHTML = `
+                <h2 class="section-title">${item.title}</h2>
+                <div class="detail-price">${item.price}</div>
+                <div class="detail-desc">${item.desc}</div>
+                ${item.outline}
+            `;
+        }
+        //FAQ折叠
+        function toggleFaq(el){
+            const parent = el.parentElement;
+            parent.classList.toggle("open");
+            const span = el.querySelector("span");
+            span.innerText = parent.classList.contains("open") ? "−" : "+";
+        }
+        window.addEventListener("hashchange", route);
+        route();
+    </script>
+</body>
+</html>
